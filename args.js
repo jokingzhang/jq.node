@@ -10,6 +10,10 @@ const argv = require('yargs')
 .alias('x', 'raw-input')
 .describe('raw-input', 'Read input as a string')
 
+.boolean('raw-print')
+.alias('p', 'raw-print')
+.describe('raw-print', 'print raw format')
+
 .boolean('json')
 .alias('j', 'json')
 .describe('json', 'Force JSON output')
@@ -17,7 +21,7 @@ const argv = require('yargs')
 .boolean('color')
 .alias('C', 'color')
 .describe('color', 'Colorize JSON (--color=false to disable it)')
-.default('color', true)
+.default('color', false)
 
 .describe('require', 'require the given module')
 .alias('r', 'require');

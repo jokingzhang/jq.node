@@ -21,7 +21,10 @@ if (args.require) {
   const lazyRequire = require('lazy-require');
   const TMP = require('os').tmpdir();
   _.castArray(args.require).reduce((deps, dep) => {
-    deps[dep] = lazyRequire(dep, {
+    dep = dep.split(':');
+    let depAlias = dep[0];
+    let depName = dep[1] ? dep[1]: dep[0];
+    deps[depAlias] = lazyRequire(depName, {
       cwd: TMP,
       save: false
     })
@@ -52,8 +55,13 @@ process.stdin.resume().on('data', function(buf) {
     console.error(err);
     process.exit(1);
   }
-  const output = args.json || !_.isString(result)
-    ? highlight(JSON.stringify(result, null, 2) || '')
-    : result;
-  console.log(output);
+
+  if(args.rawPrint) {
+    console.dir(result, {depth: null});
+  } else {
+    const output = args.json || !_.isString(result)
+      ? highlight(JSON.stringify(result, null, 2) || '')
+      : result;
+    console.log(output);
+  }
 });
